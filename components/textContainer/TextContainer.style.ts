@@ -3,7 +3,10 @@ import { StyleSheet } from 'react-native';
 export const textContainerStyle = StyleSheet.create({
 	container: {
 		flex: 5,
-		marginTop: 20,
+		marginTop: 10,
+		borderWidth: 1,
+		borderColor: 'gray',
+		borderRadius: 10,
 	},
 	textContainer: {
 		width: '100%',
