@@ -22,11 +22,12 @@ import Close from '../../assets/svg/Close';
 interface ITextarea {
 	setTranslateText: Dispatch<SetStateAction<string>>;
 	setTranslateResult: Dispatch<SetStateAction<string>>;
+	setGeorgianText: Dispatch<SetStateAction<string>>;
 	translateText: string;
 	country: string;
 }
 
-const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslateResult, country }) => {
+const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslateResult, setGeorgianText, country }) => {
 	const [isAnyText, setIsAnyText] = useState<boolean>(false);
 
 	const handleClear = () => {
@@ -44,6 +45,8 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 			setIsAnyText(false);
 		}
 		const convertTranslit = translitEngine(transliterationMixed)(text);
+
+		setGeorgianText(convertTranslit);
 
 		if (country === 'geo') {
 			setTranslateResult(convertTranslit)
