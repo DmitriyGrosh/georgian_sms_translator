@@ -18,10 +18,11 @@ import { buttonGroupStyle } from './ButtonGroup.style';
 
 interface IButtonGroup {
 	setTranslateResult: Dispatch<SetStateAction<string>>;
+	setGeorgianText: Dispatch<SetStateAction<string>>;
 	text: string;
 }
 
-const ButtonGroup: FC<IButtonGroup> = ({ setTranslateResult, text }) => {
+const ButtonGroup: FC<IButtonGroup> = ({ setTranslateResult, setGeorgianText, text }) => {
 	const [typeOfTranslate, setTypeOfTranslate] = useState<string>('mixed');
 
 	const buttons = [
@@ -48,18 +49,22 @@ const ButtonGroup: FC<IButtonGroup> = ({ setTranslateResult, text }) => {
 			const result = translitEngine(transliterationNational)(text);
 
 			setTranslateResult(result);
+			setGeorgianText(result);
 		} else if (typeOfTranslate === 'unofficial') {
 			const result = translitEngine(transliterationUnofficial)(text);
 
 			setTranslateResult(result);
+			setGeorgianText(result);
 		} else if (typeOfTranslate === 'cc') {
 			const result = translitEngine(transliterationCC)(text);
 
 			setTranslateResult(result);
+			setGeorgianText(result);
 		} else {
 			const result = translitEngine(transliterationMixed)(text);
 
 			setTranslateResult(result);
+			setGeorgianText(result);
 		}
 	}, [typeOfTranslate]);
 
