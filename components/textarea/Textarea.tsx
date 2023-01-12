@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { translitEngine } from '../../shared/lib/translit';
-import { transliterationNational } from '../../shared/lib/words';
+import { transliterationMixed } from '../../shared/lib/words';
 
 import { textareaStyles } from './Textarea.style';
 
@@ -43,7 +43,7 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 		} else {
 			setIsAnyText(false);
 		}
-		const convertTranslit = translitEngine(transliterationNational)(text);
+		const convertTranslit = translitEngine(transliterationMixed)(text);
 
 		if (country === 'geo') {
 			setTranslateResult(convertTranslit)

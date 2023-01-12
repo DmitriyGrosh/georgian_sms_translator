@@ -6,6 +6,7 @@ import {
 	Clipboard,
 	Keyboard,
 	TouchableWithoutFeedback,
+	ScrollView,
 } from 'react-native';
 
 import { textContainerStyle } from './TextContainer.style';
@@ -53,20 +54,22 @@ const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible }) => {
 
 	return (
 		<View style={textContainerStyle.container}>
-			<TouchableOpacity onPress={() => copyToClipboard()}>
-				<View style={textContainerStyle.textContainer}>
-					<View style={textContainerStyle.text}>
-						<Text>{translate}</Text>
+			<ScrollView>
+				<TouchableOpacity onPress={() => copyToClipboard()}>
+					<View style={textContainerStyle.textContainer}>
+						<View style={textContainerStyle.text}>
+							<Text>{translate}</Text>
+						</View>
+						<View style={textContainerStyle.image}>
+							{(!!translate && !visible) && (
+								<TouchableWithoutFeedback onPress={dismiss}>
+									<Arrow />
+								</TouchableWithoutFeedback>
+							)}
+						</View>
 					</View>
-					<View style={textContainerStyle.image}>
-						{(!!translate && !visible) && (
-							<TouchableWithoutFeedback onPress={dismiss}>
-								<Arrow />
-							</TouchableWithoutFeedback>
-						)}
-					</View>
-				</View>
-			</TouchableOpacity>
+				</TouchableOpacity>
+			</ScrollView>
 		</View>
 	);
 };
