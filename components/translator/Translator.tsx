@@ -20,7 +20,7 @@ export default function Translator() {
 	const [visible, setVisible] = useState<boolean>(false);
 
 	const toggleVisible = (value: boolean) => {
-		setVisible(value)
+		setVisible(value);
 	};
 
 	const handleSelect = (item: ILanguage) => {

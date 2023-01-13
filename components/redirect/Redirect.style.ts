@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export const redirectStyle = StyleSheet.create({
 	group: {
-		marginTop: 10,
+		marginTop: 40,
 		display: 'flex',
 		flexDirection: 'row',
-		justifyContent: 'flex-end'
+		justifyContent: 'flex-end',
 	},
 	button: {
 		paddingRight: 20,

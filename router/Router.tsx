@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-paper';
 
 import Translator from '../components/translator';
 import PageWrapper from '../components/pageWrapper';
-import {StyleSheet} from "react-native";
 
 const TranslatorRoute: FC = () => (
 	<PageWrapper>
@@ -17,20 +17,26 @@ const Router: FC = () => {
 		{
 			key: 'translator',
 			title: 'Переводчик',
-			focusedIcon: 'heart',
-			unfocusedIcon: 'heart-outline',
+			focusedIcon: 'home',
+			unfocusedIcon: 'home-outline',
 		},
 		{
 			key: 'list',
 			title: 'Список',
-			focusedIcon: 'bell',
-			unfocusedIcon: 'bell-outline',
+			focusedIcon: 'heart',
+			unfocusedIcon: 'heart-outline',
+		},
+		{
+			key: 'settings',
+			title: 'Настройки',
+			focusedIcon: 'account',
 		},
 	]);
 
 	const renderScene = BottomNavigation.SceneMap({
 		translator: TranslatorRoute,
-		list: TranslatorRoute
+		list: TranslatorRoute,
+		settings: TranslatorRoute
 	});
 
 	return (
