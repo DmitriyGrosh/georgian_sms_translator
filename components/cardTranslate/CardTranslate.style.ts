@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const latestTranslationStyle = StyleSheet.create({
+export const cardTranslateStyle = StyleSheet.create({
 	container: {
 		height: '100%',
 		marginTop: 30,
@@ -16,6 +16,12 @@ export const latestTranslationStyle = StyleSheet.create({
 		flexDirection: 'row'
 	},
 	textCard: {
-		flex: 1
+		flex: 12,
+	},
+	imageCard: {
+		flex: 1,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
 	}
 });
