@@ -20,7 +20,7 @@ export const translatorStyles = StyleSheet.create({
 		fontSize: 18,
 	},
 	descriptionContainer: {
-		marginTop: 10,
+		marginTop: 20,
 		display: 'flex',
 		justifyContent: 'center',
 		flexDirection: 'row'
