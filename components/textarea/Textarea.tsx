@@ -37,17 +37,8 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 		setIsAnyText(false);
 	};
 
-	const handleChangeData = async (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-		const { text } = event.nativeEvent;
-
-		if (text) {
-			setIsAnyText(true);
-		} else {
-			setIsAnyText(false);
-		}
-		const convertTranslit = translitEngine(transliterationMixed)(text);
-
-		setGeorgianText(convertTranslit);
+	const updateLanguage = async (convertTranslit: string) => {
+		setGeorgianText(convertTranslit)
 
 		if (country === 'geo') {
 			setTranslateResult(convertTranslit)
@@ -68,6 +59,19 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 			const json = await response.json();
 			setTranslateResult(json?.translate || '');
 		}
+	}
+
+	const handleChangeData = async (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+		const { text } = event.nativeEvent;
+		const convertTranslit = translitEngine(transliterationMixed)(text || '');
+
+		if (text) {
+			setIsAnyText(true);
+		} else {
+			setIsAnyText(false);
+		}
+
+		await updateLanguage(convertTranslit);
 	};
 
 	useEffect(() => {
@@ -75,27 +79,7 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 			if (translateText) {
 				const convertTranslit = translitEngine(transliterationMixed)(translateText);
 
-				setGeorgianText(convertTranslit);
-
-				if (country === 'geo') {
-					setTranslateResult(convertTranslit)
-				} else if (country === 'rus' || country === 'eng') {
-					const response = await fetch('http://localhost:8000/api/v1/translate', {
-						method: 'POST',
-						headers: {
-							Accept: 'application/json',
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							text: convertTranslit,
-							fromLanguage: "ka",
-							toLanguage: country.slice(0, 2),
-						}),
-					});
-
-					const json = await response.json();
-					setTranslateResult(json?.translate || '');
-				}
+				await updateLanguage(convertTranslit);
 			}
 		}
 
