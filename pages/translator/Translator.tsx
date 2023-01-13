@@ -4,9 +4,9 @@ import { View, Text } from 'react-native';
 import Textarea from '../../components/textarea';
 import Header from '../../components/header';
 import TextContainer from '../../components/textContainer';
-import Notification from '../../components/notification';
 import ButtonGroup from '../../components/buttonGroup';
 import Redirect from '../../components/redirect';
+import Notification from '../../widgets/notification';
 
 import { ILanguage } from '../../shared/types';
 import { translatorStyles } from './Translator.styles';
