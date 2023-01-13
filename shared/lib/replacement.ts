@@ -1,8 +1,10 @@
-function getReplacement(integer: number) {
+import { IReplacementsMap } from '../types';
+
+function getReplacement(integer: number): string {
 	return '{' + integer.toString() + '}';
 }
 
-function replaceAndGetResult(text: any, words: any, map: any) {
+function replaceAndGetResult(text: string, words: string[], map: IReplacementsMap): string {
 	let i = 0;
 	let replacement = getReplacement(i);
 
@@ -18,14 +20,14 @@ function replaceAndGetResult(text: any, words: any, map: any) {
 	return text;
 }
 
-export function getTextWithRestoredWords(text: any, replacementsMap: any) {
+export function getTextWithRestoredWords(text: string, replacementsMap: IReplacementsMap): string {
 	for (const [template, word] of Object.entries(replacementsMap))
 		text = text.replace(template, word);
 
 	return text;
 }
 
-export function replaceWordsToTemplates(text: any, regexPattern: any, replacementsMap: any) {
+export function replaceWordsToTemplates(text: string, regexPattern: RegExp, replacementsMap: IReplacementsMap): string {
 	const matchedWords = text.match(regexPattern);
 	if (matchedWords === null)
 		return text;

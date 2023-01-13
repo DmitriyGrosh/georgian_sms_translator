@@ -1,12 +1,13 @@
 import { getTextWithRestoredWords, replaceWordsToTemplates } from './replacement';
 import { excludeUrlRegex, excludeWordsRegex } from './regexps';
+import { IReplacementsMap } from '../types';
 
-export function translitEngine(table: any) {
-	let keys;
-	let specialCases;
-	let singleLetter;
-	let searchPattern: any;
-	let lookupTable: any;
+export function translitEngine(table: IReplacementsMap) {
+	let keys: string[] | undefined = undefined;
+	let specialCases = '';
+	let singleLetter = '';
+	let searchPattern: RegExp;
+	let lookupTable: (input: any) => any;
 	let i = 0;
 
 	// If no transliteration table is given, return a function that will
@@ -16,7 +17,6 @@ export function translitEngine(table: any) {
 			return subject;
 		};
 	}
-
 
 	// Function used by the resulting replace function
 	lookupTable = function (input: any) {
@@ -59,15 +59,7 @@ export function translitEngine(table: any) {
 		singleLetter ? '[' + singleLetter + ']' : ''
 	].join(singleLetter && specialCases ? '|' : ''), 'g');
 
-
-	/**
-	 * Search for occurrences of entries in the transliteration table
-	 * and replace these with their corresponding values.
-	 *
-	 * @param [String] subject to transliterate.
-	 * @return [String] transliterated string
-	 */
-	return function (subject: any) {
+	return function (subject: string | number) {
 		// input sanity check, we expect a string
 		if (typeof subject !== 'string') {
 			// Try to run toString, if it exist
@@ -80,7 +72,7 @@ export function translitEngine(table: any) {
 			}
 		}
 
-		var replacementsMap = {};
+		const replacementsMap = {};
 		subject = replaceWordsToTemplates(subject, excludeUrlRegex, replacementsMap);
 		subject = replaceWordsToTemplates(subject, excludeWordsRegex, replacementsMap);
 
