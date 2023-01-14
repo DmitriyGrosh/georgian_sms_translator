@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 
-import { RouterContext } from '../../router/Router.context';
+import { RouterContext } from '../../shared/context';
 import { ITranslate, SERVICE_RESULT_TYPE } from '../../shared/types';
 import { getSpecialList } from '../../storage/list';
 

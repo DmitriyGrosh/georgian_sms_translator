@@ -6,13 +6,12 @@ import {
 } from 'react';
 import { ScrollView } from 'react-native';
 
+import { RouterContext } from '../../shared/context';
 import { ITranslate, SERVICE_RESULT_TYPE } from '../../shared/types';
 import { getAllList } from '../../storage/list';
 
 
 import CardTranslate from '../cardTranslate';
-
-import { RouterContext } from '../../router/Router.context';
 
 import { latestTranslationStyle } from './LatestTranslation.style';
 

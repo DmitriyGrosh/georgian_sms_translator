@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export const headerStyles = StyleSheet.create({
 	languageContainer: {
-		backgroundColor: '#4b51d8',
 		width: '100%',
 		flex: 1,
 		borderRadius: 10,
@@ -24,12 +23,13 @@ export const headerStyles = StyleSheet.create({
 		height: 20
 	},
 	buttonText: {
-		fontSize: 8,
+		fontSize: 9,
 	},
 	rowText: {
 		fontSize: 10
 	},
 	button: {
 		width: 85,
+		borderRadius: 5
 	},
 });

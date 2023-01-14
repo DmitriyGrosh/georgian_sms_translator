@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper'
 
 import Textarea from '../../components/textarea';
 import Header from '../../components/header';
@@ -10,6 +11,7 @@ import LatestTranslation from '../../components/latestTranslations';
 import Notification from '../../widgets/notification';
 
 import { ILanguage } from '../../shared/types';
+import { useAppTheme } from '../../shared/lib/theme';
 import { translatorStyles } from './Translator.styles';
 
 export default function Translator() {
@@ -18,6 +20,8 @@ export default function Translator() {
 	const [translateResult, setTranslateResult] = useState<string>('');
 	const [georgianText, setGeorgianText] = useState<string>('');
 	const [visible, setVisible] = useState<boolean>(false);
+
+	const theme = useAppTheme();
 
 	const toggleVisible = (value: boolean) => {
 		setVisible(value);
@@ -44,7 +48,9 @@ export default function Translator() {
 		<View style={translatorStyles.container}>
 			<Header country={country} handleSelect={handleSelect} />
 			<View style={translatorStyles.titleContainer}>
-				<Text style={translatorStyles.title}>SMS сообщение</Text>
+				<Text style={translatorStyles.title}>
+					SMS сообщение
+				</Text>
 			</View>
 			<Textarea
 				setTranslateResult={setTranslateResult}

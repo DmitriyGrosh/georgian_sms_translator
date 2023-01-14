@@ -4,6 +4,7 @@ import {
 	SetStateAction,
 	useState,
 	useEffect,
+	useContext,
 } from 'react';
 import {
 	TextInputChangeEventData,
@@ -15,6 +16,8 @@ import {
 
 import { translitEngine } from '../../shared/lib/translit';
 import { transliterationMixed } from '../../shared/lib/words';
+import { theme } from '../../shared/lib/theme';
+import { ThemeContext } from '../../shared/context';
 
 import { textareaStyles } from './Textarea.style';
 
@@ -30,6 +33,7 @@ interface ITextarea {
 
 const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslateResult, setGeorgianText, country }) => {
 	const [isAnyText, setIsAnyText] = useState<boolean>(false);
+	const { isDark } = useContext(ThemeContext);
 
 	const handleClear = () => {
 		setTranslateText('');
@@ -103,7 +107,10 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 				onChangeText={setTranslateText}
 				multiline
 				numberOfLines={10}
-				style={textareaStyles.input}
+				style={{
+					...textareaStyles.input,
+					color: isDark? theme.colors.background : theme.colors.onBackground
+			}}
 				value={translateText}
 			/>
 		</View>
