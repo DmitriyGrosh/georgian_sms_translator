@@ -22,9 +22,20 @@ interface ITextContainer {
 }
 
 const TextContainer: FC<ITextContainer> = ({ translationResult, toggleVisible, translit, country, georgianText }) => {
-	const copyToClipboard = () => {
+	const copyToClipboard = async () => {
 		if (translationResult) {
 			Clipboard.setString(translationResult);
+
+			const card: ITranslate = {
+				translit,
+				country,
+				georgianText,
+				translationResult,
+				id: Date.now(),
+				type: 'regular',
+			};
+
+			await addCard(card);
 			toggleVisible(true);
 		}
 	};
@@ -38,6 +49,7 @@ const TextContainer: FC<ITextContainer> = ({ translationResult, toggleVisible, t
 					country,
 					georgianText,
 					translationResult,
+					id: Date.now(),
 					type: 'regular',
 				};
 

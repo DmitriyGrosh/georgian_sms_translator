@@ -10,12 +10,15 @@ import {
 import { deepEqual } from '../shared/lib/equal';
 import { parse, stringify } from '../shared/lib/jsonAPI';
 
-export const getAllList = async (): Promise<ServiceResult<ITranslate[]>> => {
+type TTranslateStorage = IStorage<ITranslate[]>;
+type TListResult = Promise<ServiceResult<ITranslate[]>>;
+
+export const getAllList = async (): TListResult => {
 	try {
 		const data = await AsyncStorage.getItem('list');
 
 		if (data) {
-			const list = parse<IStorage<ITranslate[]>>(data);
+			const list = parse<TTranslateStorage>(data);
 
 			return {
 				type: SERVICE_RESULT_TYPE.SUCCESS,
@@ -37,17 +40,19 @@ export const getAllList = async (): Promise<ServiceResult<ITranslate[]>> => {
 	}
 };
 
-export const addCard = async (card: ITranslate): Promise<ServiceResult<ITranslate[]>> => {
+export const addCard = async (card: ITranslate): TListResult => {
 	try {
 		const list = await AsyncStorage.getItem('list');
 
 		if (list) {
-			const currentList = parse<IStorage<ITranslate[]>>(list);
+			const currentList = parse<TTranslateStorage>(list);
 			const lastCard = currentList.data[currentList.data.length - 1];
-			const isLastEqual = deepEqual(lastCard, card);
+			const { id, ...equalLastCard } = lastCard;
+			const { id: cardId, ...equalCard } = card;
+			const isLastEqual = deepEqual(equalLastCard, equalCard);
 
 			if (!isLastEqual) {
-				const jsonValue: IStorage<ITranslate[]> = {
+				const jsonValue: TTranslateStorage = {
 					data: [...currentList.data, card],
 				};
 
@@ -59,7 +64,7 @@ export const addCard = async (card: ITranslate): Promise<ServiceResult<ITranslat
 				}
 			}
 		} else {
-			const jsonValue: IStorage<ITranslate[]> = {
+			const jsonValue: TTranslateStorage = {
 				data: [card]
 			};
 
@@ -85,26 +90,115 @@ export const addCard = async (card: ITranslate): Promise<ServiceResult<ITranslat
 	}
 };
 
-export const getSpecialList = async () => {
+export const getSpecialList = async (): TListResult => {
 	try {
+		const list = await AsyncStorage.getItem('list');
 
+		if (list) {
+			const currentList = parse<TTranslateStorage>(list);
+			const specialList = currentList.data.filter((list) => list.type === 'special');
+
+			return {
+				type: SERVICE_RESULT_TYPE.SUCCESS,
+				data: specialList,
+			}
+		}
+
+		return {
+			type: SERVICE_RESULT_TYPE.SUCCESS,
+			data: [],
+		}
 	} catch (e: unknown) {
 		console.log('==========>e', e);
+
+		return {
+			type: SERVICE_RESULT_TYPE.FAILURE,
+			data: 'error',
+		}
 	}
 };
 
-export const addSpecialCard = async () => {
+export const addSpecialCard = async (id: number, type: 'special' | 'all'): TListResult => {
 	try {
+		const list = await AsyncStorage.getItem('list');
 
+		if (list) {
+			const currentList = parse<TTranslateStorage>(list);
+
+			const specialCards = currentList.data.map((card) => {
+				const translate: ITranslate = {
+					...card,
+					type: card.id === id ? 'special' : card.type,
+				};
+
+				return translate;
+			});
+
+			const jsonValue: TTranslateStorage = {
+				data: specialCards,
+			};
+
+			await AsyncStorage.setItem('list', stringify(jsonValue));
+
+			return {
+				type: SERVICE_RESULT_TYPE.SUCCESS,
+				data: type === 'all' ? specialCards : specialCards.filter((card) => card.type === 'special'),
+			};
+		}
+
+		return {
+			type: SERVICE_RESULT_TYPE.SUCCESS,
+			data: [],
+		};
 	} catch (e: unknown) {
 		console.log('==========>e', e);
+
+		return {
+			type: SERVICE_RESULT_TYPE.FAILURE,
+			data: 'error',
+		};
 	}
 };
 
-export const removeSpecialCard = async () => {
+export const removeSpecialCard = async (id: number, type: 'special' | 'all'): TListResult => {
 	try {
+		const list = await AsyncStorage.getItem('list');
+
+		if (list) {
+			const currentList = parse<TTranslateStorage>(list);
+
+			const regularCards = currentList.data.map((card) => {
+				const translate: ITranslate = {
+					...card,
+					type: card.id === id ? 'regular' : card.type,
+				};
+
+				return translate;
+			});
+
+			const jsonValue: TTranslateStorage = {
+				data: regularCards,
+			};
+
+			await AsyncStorage.setItem('list', stringify(jsonValue));
+
+			return {
+				type: SERVICE_RESULT_TYPE.SUCCESS,
+				data: type === 'all' ? regularCards : regularCards.filter((card) => card.type === 'special'),
+			};
+		}
+
+		return {
+			type: SERVICE_RESULT_TYPE.SUCCESS,
+			data: [],
+		};
 
 	} catch (e: unknown) {
 		console.log('==========>e', e);
+
+		return {
+			type: SERVICE_RESULT_TYPE.FAILURE,
+			data: 'error',
+		};
 	}
 };

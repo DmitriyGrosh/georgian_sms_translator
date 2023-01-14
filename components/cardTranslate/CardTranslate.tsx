@@ -1,21 +1,46 @@
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import { Card } from 'react-native-paper';
 
-import { ITranslate } from '../../shared/types';
+import { ITranslate, SERVICE_RESULT_TYPE } from '../../shared/types';
+import { addSpecialCard, removeSpecialCard } from '../../storage/list';
 
 import FullStar from '../../assets/svg/FullStart';
 import EmptyStar from '../../assets/svg/EmptyStart';
 
 import { cardTranslateStyle } from './CardTranslate.style';
 
-interface ICardTranslate extends ITranslate {}
+interface ICardTranslate extends ITranslate {
+	setCards: Dispatch<SetStateAction<ITranslate[]>>;
+	updateType: 'all' | 'special';
+}
 
-const CardTranslate: FC<ICardTranslate> = ({ translationResult, translit, country, type, georgianText }) => {
-	const [isActiveStart, setIsActiveStart] = useState<boolean>(false);
+const CardTranslate: FC<ICardTranslate> = ({
+		translationResult,
+		translit,
+		country,
+		type,
+		georgianText,
+		id,
+		setCards,
+		updateType,
+	}) => {
+	const handleAddToSpecial = async () => {
+		if (type === 'special') {
+			const { type: resultType, data } = await removeSpecialCard(id, updateType);
 
-	const handleAddToSpecial = () => {
-		setIsActiveStart((prev) => !prev);
+			if (resultType === SERVICE_RESULT_TYPE.SUCCESS) {
+				setCards(data);
+			}
+		}
+
+		if (type === 'regular') {
+			const { type: resultType, data } = await addSpecialCard(id, updateType);
+
+			if (resultType === SERVICE_RESULT_TYPE.SUCCESS) {
+				setCards(data);
+			}
+		}
 	};
 
 	return (
@@ -27,7 +52,7 @@ const CardTranslate: FC<ICardTranslate> = ({ translationResult, translit, countr
 				</View>
 				<TouchableWithoutFeedback onPress={handleAddToSpecial}>
 					<View style={cardTranslateStyle.imageCard}>
-						{isActiveStart ? (<FullStar />) : (<EmptyStar />)}
+						{type === 'special' ? (<FullStar />) : (<EmptyStar />)}
 					</View>
 				</TouchableWithoutFeedback>
 			</Card.Content>

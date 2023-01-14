@@ -9,6 +9,7 @@ export interface ITranslate {
 	translationResult: string;
 	georgianText: string;
 	country: string;
+	id: number;
 }
 
 export interface IStorage<T> {

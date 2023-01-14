@@ -4,10 +4,17 @@ import { BottomNavigation } from 'react-native-paper';
 
 import PageWrapper from '../components/pageWrapper';
 import Translator from '../pages/translator';
+import Favorite from '../pages/favorite';
 
 const TranslatorRoute: FC = () => (
 	<PageWrapper>
 		<Translator />
+	</PageWrapper>
+);
+
+const FavoriteRoute: FC = () => (
+	<PageWrapper>
+		<Favorite />
 	</PageWrapper>
 );
 
@@ -35,7 +42,7 @@ const Router: FC = () => {
 
 	const renderScene = BottomNavigation.SceneMap({
 		translator: TranslatorRoute,
-		list: TranslatorRoute,
+		list: FavoriteRoute,
 		settings: TranslatorRoute
 	});
 
