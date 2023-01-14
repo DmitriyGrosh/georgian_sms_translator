@@ -3,6 +3,7 @@ import { Image, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 
 import { ILanguage } from '../../shared/types';
+import { useAppTheme } from '../../shared/lib/theme';
 
 import Georgia from '../../assets/svg/Georgia';
 import Russia from '../../assets/svg/Russia';
@@ -16,14 +17,19 @@ interface IHeader {
 }
 
 const Header: FC<IHeader> = ({ country, handleSelect }) => {
+	const theme = useAppTheme();
+
 	const languages: ILanguage[] = [
-		{ label: 'Английский', value: 'eng' },
-		{ label: 'Русский', value: 'rus' },
 		{ label: 'Грузинский', value: 'geo' },
+		{ label: 'Русский', value: 'rus' },
+		{ label: 'Английский', value: 'eng' },
 	];
 
 	return (
-		<View style={headerStyles.languageContainer}>
+		<View style={{
+			...headerStyles.languageContainer,
+			backgroundColor: theme.colors.primary
+		}}>
 			<View style={headerStyles.languageContainerView}>
 				{country === 'geo' && <Georgia />}
 				{country === 'rus' && <Russia />}
@@ -36,12 +42,22 @@ const Header: FC<IHeader> = ({ country, handleSelect }) => {
 				<SelectDropdown
 					data={languages}
 					defaultButtonText='Грузинский'
-					onChangeSearchInputText={(test) => {}}
+					onChangeSearchInputText={() => {}}
 					buttonTextAfterSelection={(selectedItem) => selectedItem.label}
 					rowTextForSelection={(item) => item.label}
-					buttonTextStyle={headerStyles.buttonText}
-					buttonStyle={headerStyles.button}
-					rowTextStyle={headerStyles.rowText}
+					buttonTextStyle={{
+						...headerStyles.buttonText,
+						color: theme.colors.primary
+					}}
+					buttonStyle={{
+						...headerStyles.button,
+						backgroundColor: theme.colors.secondaryContainer
+					}}
+					rowTextStyle={{
+						...headerStyles.rowText,
+						color: theme.colors.primary
+					}}
+					rowStyle={{ backgroundColor: theme.colors.secondaryContainer }}
 					onSelect={handleSelect}
 				/>
 			</View>

@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-paper';
 
-import { RouterContext } from './Router.context';
+import { RouterContext } from '../shared/context';
 
 import PageWrapper from '../components/pageWrapper';
 import Translator from '../pages/translator';

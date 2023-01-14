@@ -1,12 +1,12 @@
 import { FC, useEffect } from 'react';
 import {
 	View,
-	Text,
 	TouchableOpacity,
 	Clipboard,
 	Keyboard,
 	ScrollView,
 } from 'react-native';
+import { Text } from 'react-native-paper';
 
 import { addCard } from '../../storage/list';
 
