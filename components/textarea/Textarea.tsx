@@ -3,6 +3,7 @@ import {
 	FC,
 	SetStateAction,
 	useState,
+	useEffect,
 } from 'react';
 import {
 	TextInputChangeEventData,
@@ -36,22 +37,54 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 		setIsAnyText(false);
 	};
 
-	const handleChangeData = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+	const updateLanguage = async (convertTranslit: string) => {
+		setGeorgianText(convertTranslit)
+
+		if (country === 'geo') {
+			setTranslateResult(convertTranslit)
+		} else if (country === 'rus' || country === 'eng') {
+			const response = await fetch('http://localhost:8000/api/v1/translate', {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					text: convertTranslit,
+					fromLanguage: "ka",
+					toLanguage: country.slice(0, 2),
+				}),
+			});
+
+			const json = await response.json();
+			setTranslateResult(json?.translate || '');
+		}
+	}
+
+	const handleChangeData = async (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
 		const { text } = event.nativeEvent;
+		const convertTranslit = translitEngine(transliterationMixed)(text || '');
 
 		if (text) {
 			setIsAnyText(true);
 		} else {
 			setIsAnyText(false);
 		}
-		const convertTranslit = translitEngine(transliterationMixed)(text);
 
-		setGeorgianText(convertTranslit);
-
-		if (country === 'geo') {
-			setTranslateResult(convertTranslit)
-		}
+		await updateLanguage(convertTranslit);
 	};
+
+	useEffect(() => {
+		const initData = async () => {
+			if (translateText) {
+				const convertTranslit = translitEngine(transliterationMixed)(translateText);
+
+				await updateLanguage(convertTranslit);
+			}
+		}
+
+		initData();
+	}, [country]);
 
 	return (
 		<View style={textareaStyles.inputContainer}>

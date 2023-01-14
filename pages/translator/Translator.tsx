@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { View, Text } from 'react-native';
 
-import Textarea from '../textarea';
-import Header from '../header';
-import TextContainer from '../textContainer';
-import Notification from '../notification';
-import ButtonGroup from '../buttonGroup';
+import Textarea from '../../components/textarea';
+import Header from '../../components/header';
+import TextContainer from '../../components/textContainer';
+import ButtonGroup from '../../components/buttonGroup';
+import Redirect from '../../components/redirect';
+import Notification from '../../widgets/notification';
 
 import { ILanguage } from '../../shared/types';
 import { translatorStyles } from './Translator.styles';
-import Redirect from "../redirect";
 
 export default function Translator() {
 	const [country, setCountry] = useState<string>('geo');

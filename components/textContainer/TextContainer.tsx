@@ -50,8 +50,6 @@ const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible }) => {
 		};
 	}, []);
 
-
-
 	return (
 		<View style={textContainerStyle.container}>
 			<ScrollView>
