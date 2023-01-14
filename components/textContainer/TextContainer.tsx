@@ -8,7 +8,7 @@ import {
 	ScrollView,
 } from 'react-native';
 
-import { addCard, getAllList } from '../../storage/list';
+import { addCard } from '../../storage/list';
 
 import { textContainerStyle } from './TextContainer.style';
 import { ITranslate } from '../../shared/types';
