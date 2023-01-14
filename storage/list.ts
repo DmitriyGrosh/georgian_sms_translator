@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { deepEqual } from '../shared/lib/equal';
 import { parse, stringify } from '../shared/lib/jsonAPI';
-import { IStorage, ITranslate}  from '../shared/types';
-import {deepEqual} from "../shared/lib/equal";
+import { IStorage, ITranslate }  from '../shared/types';
 
 export const getAllList = async () => {
 	try {
@@ -21,7 +21,6 @@ export const getAllList = async () => {
 };
 
 export const addCard = async (card: ITranslate) => {
-	console.log('==========>card', card);
 	try {
 		const list = await AsyncStorage.getItem('list');
 
@@ -30,9 +29,6 @@ export const addCard = async (card: ITranslate) => {
 			const lastCard = currentList.data[currentList.data.length - 1];
 			const isLastEqual = deepEqual(lastCard, card);
 
-			console.log('==========>isLastEqual', isLastEqual);
-			console.log('==========>lastCard', lastCard);
-			console.log('==========>card', card);
 			if (!isLastEqual) {
 				const jsonValue: IStorage<ITranslate[]> = {
 					data: [...currentList.data, card],
