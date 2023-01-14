@@ -9,6 +9,7 @@ export interface ITranslate {
 	translationResult: string;
 	georgianText: string;
 	country: string;
+	id: number;
 }
 
 export interface IStorage<T> {
@@ -21,16 +22,21 @@ export interface IReplacementsMap {
 	[key: string]: string;
 }
 
-export interface ITranslate {
-	type: TCard;
-	translit: string;
-	translationResult: string;
-	georgianText: string;
-	country: string;
+export enum SERVICE_RESULT_TYPE {
+	SUCCESS = 'SUCCESS',
+	FAILURE = 'FAILURE',
 }
 
-export interface IStorage<T> {
-	data: T;
+type ServiceResultSuccess<T> = {
+	type: SERVICE_RESULT_TYPE.SUCCESS,
+	data: T,
 }
 
-export type TCard = 'special' | 'regular';
+type ServiceResultFailure = {
+	type: SERVICE_RESULT_TYPE.FAILURE,
+	data: string
+}
+
+export type ServiceResult<T> = ServiceResultSuccess<T> | ServiceResultFailure;
+
+

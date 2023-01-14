@@ -3,14 +3,19 @@ interface IEqual {
 }
 
 export const deepEqual = (firstValue: IEqual, secondValue: IEqual): boolean => {
-	const keys = Object.keys(firstValue);
 	let isEqual = true;
 
-	keys.forEach((key) => {
-		if (firstValue[key] !== secondValue[key]) {
-			isEqual = false;
-		}
-	});
+	if (typeof firstValue === typeof secondValue) {
+		const keys = Object.keys(firstValue);
+
+		keys.forEach((key) => {
+			if (firstValue[key] !== secondValue[key]) {
+				isEqual = false;
+			}
+		});
+	} else {
+		isEqual = false;
+	}
 
 	return isEqual
 };

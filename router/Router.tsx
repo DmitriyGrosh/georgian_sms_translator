@@ -2,12 +2,20 @@ import { FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-paper';
 
+import { RouterContext, IRouterContext } from './Router.context';
 import PageWrapper from '../components/pageWrapper';
 import Translator from '../pages/translator';
+import Favorite from '../pages/favorite';
 
 const TranslatorRoute: FC = () => (
 	<PageWrapper>
 		<Translator />
+	</PageWrapper>
+);
+
+const FavoriteRoute: FC = () => (
+	<PageWrapper>
+		<Favorite />
 	</PageWrapper>
 );
 
@@ -35,17 +43,19 @@ const Router: FC = () => {
 
 	const renderScene = BottomNavigation.SceneMap({
 		translator: TranslatorRoute,
-		list: TranslatorRoute,
+		list: FavoriteRoute,
 		settings: TranslatorRoute
 	});
 
 	return (
-		<BottomNavigation
-			navigationState={{ index, routes }}
-			onIndexChange={setIndex}
-			renderScene={renderScene}
-			barStyle={styles.navigation}
-		/>
+		<RouterContext.Provider value={{ changePage: index }}>
+			<BottomNavigation
+				navigationState={{ index, routes }}
+				onIndexChange={setIndex}
+				renderScene={renderScene}
+				barStyle={styles.navigation}
+			/>
+		</RouterContext.Provider>
 	);
 };
 
