@@ -1,54 +1,54 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import {
 	View,
 	Text,
 	TouchableOpacity,
 	Clipboard,
 	Keyboard,
-	TouchableWithoutFeedback,
 	ScrollView,
 } from 'react-native';
 
+import { addCard, getAllList } from '../../storage/list';
+
 import { textContainerStyle } from './TextContainer.style';
-import Arrow from '../../assets/svg/Arrow';
+import { ITranslate } from '../../shared/types';
 
 interface ITextContainer {
-	translate: string;
+	translationResult: string;
 	toggleVisible: (value: boolean) => void;
+	country: string;
+	translit: string;
+	georgianText: string;
 }
 
-const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible }) => {
-	const [visible, setVisible] = useState<boolean>(false);
+const TextContainer: FC<ITextContainer> = ({ translationResult, toggleVisible, translit, country, georgianText }) => {
 	const copyToClipboard = () => {
-		if (translate) {
-			Clipboard.setString(translate);
+		if (translationResult) {
+			Clipboard.setString(translationResult);
 			toggleVisible(true);
 		}
 	};
 
-	const dismiss = () => {
-		Keyboard.dismiss();
-	};
-
 	useEffect(() => {
-		const keyboardDidShowListener = Keyboard.addListener(
-			'keyboardDidShow',
-			() => {
-				setVisible(false);
-			}
-		);
 		const keyboardDidHideListener = Keyboard.addListener(
 			'keyboardDidHide',
-			() => {
-				setVisible(true);
+			async () => {
+				const card: ITranslate = {
+					translit,
+					country,
+					georgianText,
+					translationResult,
+					type: 'regular',
+				};
+
+				await addCard(card);
 			}
 		);
 
 		return () => {
 			keyboardDidHideListener.remove();
-			keyboardDidShowListener.remove();
 		};
-	}, []);
+	}, [translationResult, translit, country]);
 
 	return (
 		<View style={textContainerStyle.container}>
@@ -56,14 +56,7 @@ const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible }) => {
 				<TouchableOpacity onPress={() => copyToClipboard()}>
 					<View style={textContainerStyle.textContainer}>
 						<View style={textContainerStyle.text}>
-							<Text>{translate}</Text>
-						</View>
-						<View style={textContainerStyle.image}>
-							{(!!translate && !visible) && (
-								<TouchableWithoutFeedback onPress={dismiss}>
-									<Arrow />
-								</TouchableWithoutFeedback>
-							)}
+							<Text>{translationResult}</Text>
 						</View>
 					</View>
 				</TouchableOpacity>

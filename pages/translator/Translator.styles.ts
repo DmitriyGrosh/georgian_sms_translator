@@ -6,6 +6,9 @@ export const translatorStyles = StyleSheet.create({
 		flexDirection: 'column',
 		height: '100%',
 	},
+	contentWrapper: {
+		flex: 6
+	},
 	titleContainer: {
 		marginTop: 10,
 		marginBottom: 10,
@@ -17,7 +20,7 @@ export const translatorStyles = StyleSheet.create({
 		fontSize: 18,
 	},
 	descriptionContainer: {
-		marginTop: 10,
+		marginTop: 20,
 		display: 'flex',
 		justifyContent: 'center',
 		flexDirection: 'row'

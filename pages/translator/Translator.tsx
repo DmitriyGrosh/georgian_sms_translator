@@ -6,6 +6,7 @@ import Header from '../../components/header';
 import TextContainer from '../../components/textContainer';
 import ButtonGroup from '../../components/buttonGroup';
 import Redirect from '../../components/redirect';
+import LatestTranslation from '../../components/latestTranslations';
 import Notification from '../../widgets/notification';
 
 import { ILanguage } from '../../shared/types';
@@ -13,13 +14,13 @@ import { translatorStyles } from './Translator.styles';
 
 export default function Translator() {
 	const [country, setCountry] = useState<string>('geo');
-	const [translateText, setTranslateText] = useState<string>('');
+	const [translit, setTranslit] = useState<string>('');
 	const [translateResult, setTranslateResult] = useState<string>('');
 	const [georgianText, setGeorgianText] = useState<string>('');
 	const [visible, setVisible] = useState<boolean>(false);
 
 	const toggleVisible = (value: boolean) => {
-		setVisible(value)
+		setVisible(value);
 	};
 
 	const handleSelect = (item: ILanguage) => {
@@ -47,20 +48,38 @@ export default function Translator() {
 			</View>
 			<Textarea
 				setTranslateResult={setTranslateResult}
-				setTranslateText={setTranslateText}
+				setTranslateText={setTranslit}
 				setGeorgianText={setGeorgianText}
-				translateText={translateText}
+				translateText={translit}
 				country={country}
 			/>
-			{country === 'geo' && (<ButtonGroup setGeorgianText={setGeorgianText} setTranslateResult={setTranslateResult} text={translateText} />)}
-			{!!translateResult && (
-				<View style={translatorStyles.descriptionContainer}>
-					<Text style={translatorStyles.title}>Нажмите на текст чтобы скопировать</Text>
-				</View>
-			)}
-			<TextContainer translate={translateResult} toggleVisible={toggleVisible} />
-			<Redirect text={georgianText} from="ka" to={to} />
-			<Notification visible={visible} toggleVisible={toggleVisible} />
+			<View style={translatorStyles.contentWrapper}>
+				{!!translateResult ? (
+					<>
+						{country === 'geo' && (
+							<ButtonGroup
+								setGeorgianText={setGeorgianText}
+								setTranslateResult={setTranslateResult}
+								text={translit}
+							/>
+						)}
+						<View style={translatorStyles.descriptionContainer}>
+							<Text style={translatorStyles.title}>Нажмите на текст чтобы скопировать</Text>
+						</View>
+						<TextContainer
+							country={country}
+							translit={translit}
+							translationResult={translateResult}
+							toggleVisible={toggleVisible}
+							georgianText={georgianText}
+						/>
+						<Redirect text={georgianText} from="ka" to={to} />
+						<Notification visible={visible} toggleVisible={toggleVisible} />
+					</>
+				) : (
+					<LatestTranslation />
+				)}
+			</View>
 		</View>
 	);
 }

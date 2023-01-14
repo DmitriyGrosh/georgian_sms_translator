@@ -43,21 +43,27 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 		if (country === 'geo') {
 			setTranslateResult(convertTranslit)
 		} else if (country === 'rus' || country === 'eng') {
-			const response = await fetch('http://localhost:8000/api/v1/translate', {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					text: convertTranslit,
-					fromLanguage: "ka",
-					toLanguage: country.slice(0, 2),
-				}),
-			});
+			console.log('==========>1111111', 1111111);
+			try {
+				const response = await fetch('http://localhost:8000/api/v1/translate', {
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						text: convertTranslit,
+						fromLanguage: "ka",
+						toLanguage: country.slice(0, 2),
+					}),
+				});
 
-			const json = await response.json();
-			setTranslateResult(json?.translate || '');
+				const json = await response.json();
+				setTranslateResult(json?.translate || '');
+			} catch (e: unknown) {
+				setTranslateResult('error');
+				console.log('==========>e', e);
+			}
 		}
 	}
 
