@@ -53,7 +53,9 @@ const TextContainer: FC<ITextContainer> = ({ translationResult, toggleVisible, t
 					type: 'regular',
 				};
 
-				await addCard(card);
+				if (translationResult !== 'error') {
+					await addCard(card);
+				}
 			}
 		);
 

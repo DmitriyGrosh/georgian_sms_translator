@@ -22,7 +22,7 @@ export const getAllList = async (): TListResult => {
 
 			return {
 				type: SERVICE_RESULT_TYPE.SUCCESS,
-				data: list.data,
+				data: list.data.reverse(),
 			};
 		}
 
@@ -100,7 +100,7 @@ export const getSpecialList = async (): TListResult => {
 
 			return {
 				type: SERVICE_RESULT_TYPE.SUCCESS,
-				data: specialList,
+				data: specialList.reverse(),
 			}
 		}
 
