@@ -6,6 +6,7 @@ import Header from '../../components/header';
 import TextContainer from '../../components/textContainer';
 import ButtonGroup from '../../components/buttonGroup';
 import Redirect from '../../components/redirect';
+import LatestTranslation from '../../components/latestTranslations';
 import Notification from '../../widgets/notification';
 
 import { ILanguage } from '../../shared/types';
@@ -52,15 +53,21 @@ export default function Translator() {
 				translateText={translateText}
 				country={country}
 			/>
-			{country === 'geo' && (<ButtonGroup setGeorgianText={setGeorgianText} setTranslateResult={setTranslateResult} text={translateText} />)}
-			{!!translateResult && (
-				<View style={translatorStyles.descriptionContainer}>
-					<Text style={translatorStyles.title}>Нажмите на текст чтобы скопировать</Text>
-				</View>
-			)}
-			<TextContainer translate={translateResult} toggleVisible={toggleVisible} />
-			<Redirect text={georgianText} from="ka" to={to} />
-			<Notification visible={visible} toggleVisible={toggleVisible} />
+			<View style={translatorStyles.contentWrapper}>
+				{!!translateResult ? (
+					<>
+						{country === 'geo' && (<ButtonGroup setGeorgianText={setGeorgianText} setTranslateResult={setTranslateResult} text={translateText} />)}
+						<View style={translatorStyles.descriptionContainer}>
+							<Text style={translatorStyles.title}>Нажмите на текст чтобы скопировать</Text>
+						</View>
+						<TextContainer translate={translateResult} toggleVisible={toggleVisible} />
+						<Redirect text={georgianText} from="ka" to={to} />
+						<Notification visible={visible} toggleVisible={toggleVisible} />
+					</>
+				) : (
+					<LatestTranslation />
+				)}
+			</View>
 		</View>
 	);
 }
