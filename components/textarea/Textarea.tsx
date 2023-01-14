@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
 	Dispatch,
 	FC,
@@ -12,6 +13,8 @@ import {
 	NativeSyntheticEvent,
 	TextInput,
 	View,
+	AppState,
+	Clipboard
 } from 'react-native';
 
 import { translitEngine } from '../../shared/lib/translit';
@@ -27,11 +30,11 @@ interface ITextarea {
 	setTranslateText: Dispatch<SetStateAction<string>>;
 	setTranslateResult: Dispatch<SetStateAction<string>>;
 	setGeorgianText: Dispatch<SetStateAction<string>>;
-	translateText: string;
+	translit: string;
 	country: string;
 }
 
-const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslateResult, setGeorgianText, country }) => {
+const Textarea: FC<ITextarea> = ({ setTranslateText, translit, setTranslateResult, setGeorgianText, country }) => {
 	const [isAnyText, setIsAnyText] = useState<boolean>(false);
 	const { isDark } = useContext(ThemeContext);
 
@@ -85,8 +88,8 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 
 	useEffect(() => {
 		const initData = async () => {
-			if (translateText) {
-				const convertTranslit = translitEngine(transliterationMixed)(translateText);
+			if (translit) {
+				const convertTranslit = translitEngine(transliterationMixed)(translit);
 
 				await updateLanguage(convertTranslit);
 			}
@@ -94,6 +97,28 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 
 		initData();
 	}, [country]);
+
+	useEffect(() => {
+		const initData = async () => {
+			const data = await Clipboard.getString();
+
+			if (data && data !== translit) {
+				const convertTranslit = translitEngine(transliterationMixed)(data);
+
+				setTranslateText(data);
+				setIsAnyText(true);
+				await updateLanguage(convertTranslit);
+			}
+		}
+
+		AppState.addEventListener('change', (state) => {
+			if (state === 'active') {
+				initData();
+			}
+		})
+
+		initData();
+	}, [])
 
 	return (
 		<View style={textareaStyles.inputContainer}>
@@ -111,7 +136,7 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translateText, setTranslate
 					...textareaStyles.input,
 					color: isDark? theme.colors.background : theme.colors.onBackground
 			}}
-				value={translateText}
+				value={translit}
 			/>
 		</View>
 	);

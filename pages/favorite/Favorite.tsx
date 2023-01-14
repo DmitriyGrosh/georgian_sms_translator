@@ -29,7 +29,7 @@ export default function Favorite() {
 
 	return (
 		<ScrollView style={favoriteStyle.container}>
-			{cards.reverse().map((card, index) => (
+			{cards.map((card, index) => (
 				<CardTranslate
 					{...card}
 					updateType="special"

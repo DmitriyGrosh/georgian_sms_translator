@@ -2,7 +2,6 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { TouchableWithoutFeedback, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
-import { useAppTheme } from '../../shared/lib/theme';
 import { ITranslate, SERVICE_RESULT_TYPE } from '../../shared/types';
 import { addSpecialCard, removeSpecialCard } from '../../storage/list';
 
@@ -26,13 +25,12 @@ const CardTranslate: FC<ICardTranslate> = ({
 		setCards,
 		updateType,
 	}) => {
-	const theme = useAppTheme();
-
 	const handleAddToSpecial = async () => {
 		if (type === 'special') {
 			const { type: resultType, data } = await removeSpecialCard(id, updateType);
 
 			if (resultType === SERVICE_RESULT_TYPE.SUCCESS) {
+				console.log('==========>22222', 22222);
 				setCards(data);
 			}
 		}
@@ -41,6 +39,7 @@ const CardTranslate: FC<ICardTranslate> = ({
 			const { type: resultType, data } = await addSpecialCard(id, updateType);
 
 			if (resultType === SERVICE_RESULT_TYPE.SUCCESS) {
+				console.log('==========>33333', 33333);
 				setCards(data);
 			}
 		}

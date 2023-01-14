@@ -56,7 +56,7 @@ export default function Translator() {
 				setTranslateResult={setTranslateResult}
 				setTranslateText={setTranslit}
 				setGeorgianText={setGeorgianText}
-				translateText={translit}
+				translit={translit}
 				country={country}
 			/>
 			<View style={translatorStyles.contentWrapper}>
