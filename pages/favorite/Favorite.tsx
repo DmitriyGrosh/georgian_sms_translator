@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { RouterContext } from '../../router/Router.context';
 import { ITranslate, SERVICE_RESULT_TYPE } from '../../shared/types';
@@ -28,8 +28,8 @@ export default function Favorite() {
 	}, [changePage]);
 
 	return (
-		<View style={favoriteStyle.container}>
-			{cards.map((card, index) => (
+		<ScrollView style={favoriteStyle.container}>
+			{cards.reverse().map((card, index) => (
 				<CardTranslate
 					{...card}
 					updateType="special"
@@ -37,6 +37,6 @@ export default function Favorite() {
 					key={index.toString(36)}
 				/>
 			))}
-		</View>
+		</ScrollView>
 	);
 };
