@@ -1,26 +1,43 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {
+	IStorage,
+	ITranslate,
+	SERVICE_RESULT_TYPE,
+	ServiceResult,
+} from '../shared/types';
+
 import { deepEqual } from '../shared/lib/equal';
 import { parse, stringify } from '../shared/lib/jsonAPI';
-import { IStorage, ITranslate }  from '../shared/types';
 
-export const getAllList = async () => {
+export const getAllList = async (): Promise<ServiceResult<ITranslate[]>> => {
 	try {
 		const data = await AsyncStorage.getItem('list');
 
 		if (data) {
 			const list = parse<IStorage<ITranslate[]>>(data);
 
-			return list.data;
+			return {
+				type: SERVICE_RESULT_TYPE.SUCCESS,
+				data: list.data,
+			};
 		}
 
-		return [];
+		return {
+			type: SERVICE_RESULT_TYPE.SUCCESS,
+			data: []
+		};
 	} catch (e: unknown) {
 		console.log('==========>e', e);
+
+		return {
+			type: SERVICE_RESULT_TYPE.FAILURE,
+			data: 'error',
+		};
 	}
 };
 
-export const addCard = async (card: ITranslate) => {
+export const addCard = async (card: ITranslate): Promise<ServiceResult<ITranslate[]>> => {
 	try {
 		const list = await AsyncStorage.getItem('list');
 
@@ -34,17 +51,37 @@ export const addCard = async (card: ITranslate) => {
 					data: [...currentList.data, card],
 				};
 
-				await AsyncStorage.setItem('list', stringify(jsonValue))
+				await AsyncStorage.setItem('list', stringify(jsonValue));
+
+				return {
+					type: SERVICE_RESULT_TYPE.SUCCESS,
+					data: jsonValue.data,
+				}
 			}
 		} else {
 			const jsonValue: IStorage<ITranslate[]> = {
 				data: [card]
 			};
 
-			await AsyncStorage.setItem('list', stringify(jsonValue))
+			await AsyncStorage.setItem('list', stringify(jsonValue));
+
+			return {
+				type: SERVICE_RESULT_TYPE.SUCCESS,
+				data: jsonValue.data,
+			}
+		}
+
+		return {
+			type: SERVICE_RESULT_TYPE.SUCCESS,
+			data: [],
 		}
 	} catch (e: unknown) {
 		console.log('==========>e', e);
+
+		return {
+			type: SERVICE_RESULT_TYPE.FAILURE,
+			data: 'error',
+		}
 	}
 };
 
