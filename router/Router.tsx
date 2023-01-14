@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-paper';
 
+import { RouterContext, IRouterContext } from './Router.context';
 import PageWrapper from '../components/pageWrapper';
 import Translator from '../pages/translator';
 import Favorite from '../pages/favorite';
@@ -47,12 +48,14 @@ const Router: FC = () => {
 	});
 
 	return (
-		<BottomNavigation
-			navigationState={{ index, routes }}
-			onIndexChange={setIndex}
-			renderScene={renderScene}
-			barStyle={styles.navigation}
-		/>
+		<RouterContext.Provider value={{ changePage: index }}>
+			<BottomNavigation
+				navigationState={{ index, routes }}
+				onIndexChange={setIndex}
+				renderScene={renderScene}
+				barStyle={styles.navigation}
+			/>
+		</RouterContext.Provider>
 	);
 };
 

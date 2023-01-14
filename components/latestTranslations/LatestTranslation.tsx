@@ -1,4 +1,9 @@
-import { FC, useState, useEffect } from 'react';
+import {
+	FC,
+	useState,
+	useEffect,
+	useContext,
+} from 'react';
 import { ScrollView } from 'react-native';
 
 import { ITranslate, SERVICE_RESULT_TYPE } from '../../shared/types';
@@ -7,10 +12,13 @@ import { getAllList } from '../../storage/list';
 
 import CardTranslate from '../cardTranslate';
 
+import { RouterContext } from '../../router/Router.context';
+
 import { latestTranslationStyle } from './LatestTranslation.style';
 
 const LatestTranslation: FC = () => {
 	const [cards, setCards] = useState<ITranslate[]>([]);
+	const { changePage } = useContext(RouterContext);
 
 	useEffect(() => {
 		const initData = async () => {
@@ -21,8 +29,10 @@ const LatestTranslation: FC = () => {
 			}
 		};
 
-		initData();
-	}, []);
+		if (changePage === 0) {
+			initData();
+		}
+	}, [changePage]);
 
 	return (
 		<ScrollView style={latestTranslationStyle.container}>

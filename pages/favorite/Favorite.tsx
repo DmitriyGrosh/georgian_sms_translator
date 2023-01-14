@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { View } from 'react-native';
 
+import { RouterContext } from '../../router/Router.context';
 import { ITranslate, SERVICE_RESULT_TYPE } from '../../shared/types';
 import { getSpecialList } from '../../storage/list';
 
@@ -10,6 +11,7 @@ import { favoriteStyle } from './Favorite.style';
 
 export default function Favorite() {
 	const [cards, setCards] = useState<ITranslate[]>([]);
+	const { changePage } = useContext(RouterContext);
 
 	useEffect(() => {
 		const initData = async () => {
@@ -20,8 +22,10 @@ export default function Favorite() {
 			}
 		};
 
-		initData();
-	}, []);
+		if (changePage === 1) {
+			initData();
+		}
+	}, [changePage]);
 
 	return (
 		<View style={favoriteStyle.container}>
