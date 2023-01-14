@@ -35,7 +35,7 @@ const LatestTranslation: FC = () => {
 
 	return (
 		<ScrollView style={latestTranslationStyle.container}>
-			{cards.reverse().map((card, index) => (
+			{cards.map((card, index) => (
 				<CardTranslate
 					{...card}
 					updateType="all"
