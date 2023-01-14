@@ -7,6 +7,7 @@ export interface ITranslate {
 	type: TCard;
 	translit: string;
 	translationResult: string;
+	georgianText: string;
 	country: string;
 }
 

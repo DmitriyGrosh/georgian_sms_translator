@@ -8,21 +8,23 @@ import {
 	ScrollView,
 } from 'react-native';
 
-import { addCard } from '../../storage/list';
+import { addCard, getAllList } from '../../storage/list';
 
 import { textContainerStyle } from './TextContainer.style';
+import { ITranslate } from '../../shared/types';
 
 interface ITextContainer {
-	translate: string;
+	translationResult: string;
 	toggleVisible: (value: boolean) => void;
 	country: string;
 	translit: string;
+	georgianText: string;
 }
 
-const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible, translit, country }) => {
+const TextContainer: FC<ITextContainer> = ({ translationResult, toggleVisible, translit, country, georgianText }) => {
 	const copyToClipboard = () => {
-		if (translate) {
-			Clipboard.setString(translate);
+		if (translationResult) {
+			Clipboard.setString(translationResult);
 			toggleVisible(true);
 		}
 	};
@@ -31,14 +33,22 @@ const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible, translit,
 		const keyboardDidHideListener = Keyboard.addListener(
 			'keyboardDidHide',
 			async () => {
-				await addCard({ translit, country, translationResult: translate, type: 'regular' })
+				const card: ITranslate = {
+					translit,
+					country,
+					georgianText,
+					translationResult,
+					type: 'regular',
+				};
+
+				await addCard(card);
 			}
 		);
 
 		return () => {
 			keyboardDidHideListener.remove();
 		};
-	}, [translate, translit, country]);
+	}, [translationResult, translit, country]);
 
 	return (
 		<View style={textContainerStyle.container}>
@@ -46,7 +56,7 @@ const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible, translit,
 				<TouchableOpacity onPress={() => copyToClipboard()}>
 					<View style={textContainerStyle.textContainer}>
 						<View style={textContainerStyle.text}>
-							<Text>{translate}</Text>
+							<Text>{translationResult}</Text>
 						</View>
 					</View>
 				</TouchableOpacity>

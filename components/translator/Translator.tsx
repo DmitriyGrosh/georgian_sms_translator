@@ -14,7 +14,7 @@ import { translatorStyles } from './Translator.styles';
 
 export default function Translator() {
 	const [country, setCountry] = useState<string>('geo');
-	const [translateText, setTranslateText] = useState<string>('');
+	const [translit, setTranslit] = useState<string>('');
 	const [translateResult, setTranslateResult] = useState<string>('');
 	const [georgianText, setGeorgianText] = useState<string>('');
 	const [visible, setVisible] = useState<boolean>(false);
@@ -48,23 +48,30 @@ export default function Translator() {
 			</View>
 			<Textarea
 				setTranslateResult={setTranslateResult}
-				setTranslateText={setTranslateText}
+				setTranslateText={setTranslit}
 				setGeorgianText={setGeorgianText}
-				translateText={translateText}
+				translateText={translit}
 				country={country}
 			/>
 			<View style={translatorStyles.contentWrapper}>
 				{!!translateResult ? (
 					<>
-						{country === 'geo' && (<ButtonGroup setGeorgianText={setGeorgianText} setTranslateResult={setTranslateResult} text={translateText} />)}
+						{country === 'geo' && (
+							<ButtonGroup
+								setGeorgianText={setGeorgianText}
+								setTranslateResult={setTranslateResult}
+								text={translit}
+							/>
+						)}
 						<View style={translatorStyles.descriptionContainer}>
 							<Text style={translatorStyles.title}>Нажмите на текст чтобы скопировать</Text>
 						</View>
 						<TextContainer
 							country={country}
-							translit={translateText}
-							translate={translateResult}
+							translit={translit}
+							translationResult={translateResult}
 							toggleVisible={toggleVisible}
+							georgianText={georgianText}
 						/>
 						<Redirect text={georgianText} from="ka" to={to} />
 						<Notification visible={visible} toggleVisible={toggleVisible} />
