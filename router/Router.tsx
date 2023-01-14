@@ -2,8 +2,8 @@ import { FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-paper';
 
-import Translator from '../components/translator';
 import PageWrapper from '../components/pageWrapper';
+import Translator from '../pages/translator';
 
 const TranslatorRoute: FC = () => (
 	<PageWrapper>

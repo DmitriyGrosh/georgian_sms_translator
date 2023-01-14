@@ -12,7 +12,7 @@ import {
 	View,
 } from 'react-native';
 
-import DismissKeyboard from '../dismissKeyboard';
+import DismissKeyboard from '../../widgets/dismissKeyboard';
 
 const PageWrapper: FC<PropsWithChildren> = ({ children }) => {
 	const [refreshing, setRefreshing] = useState(false);
