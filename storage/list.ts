@@ -142,7 +142,7 @@ export const addSpecialCard = async (id: number, type: 'special' | 'all'): TList
 
 			return {
 				type: SERVICE_RESULT_TYPE.SUCCESS,
-				data: type === 'all' ? specialCards : specialCards.filter((card) => card.type === 'special'),
+				data: type === 'all' ? specialCards.reverse() : specialCards.filter((card) => card.type === 'special').reverse(),
 			};
 		}
 
@@ -184,7 +184,7 @@ export const removeSpecialCard = async (id: number, type: 'special' | 'all'): TL
 
 			return {
 				type: SERVICE_RESULT_TYPE.SUCCESS,
-				data: type === 'all' ? regularCards : regularCards.filter((card) => card.type === 'special'),
+				data: type === 'all' ? regularCards.reverse() : regularCards.filter((card) => card.type === 'special').reverse(),
 			};
 		}
 
