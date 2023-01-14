@@ -60,7 +60,12 @@ export default function Translator() {
 						<View style={translatorStyles.descriptionContainer}>
 							<Text style={translatorStyles.title}>Нажмите на текст чтобы скопировать</Text>
 						</View>
-						<TextContainer translate={translateResult} toggleVisible={toggleVisible} />
+						<TextContainer
+							country={country}
+							translit={translateText}
+							translate={translateResult}
+							toggleVisible={toggleVisible}
+						/>
 						<Redirect text={georgianText} from="ka" to={to} />
 						<Notification visible={visible} toggleVisible={toggleVisible} />
 					</>

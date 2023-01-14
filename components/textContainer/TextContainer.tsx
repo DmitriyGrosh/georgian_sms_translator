@@ -1,24 +1,25 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import {
 	View,
 	Text,
 	TouchableOpacity,
 	Clipboard,
 	Keyboard,
-	TouchableWithoutFeedback,
 	ScrollView,
 } from 'react-native';
 
+import { addCard } from '../../storage/list';
+
 import { textContainerStyle } from './TextContainer.style';
-import Arrow from '../../assets/svg/Arrow';
 
 interface ITextContainer {
 	translate: string;
 	toggleVisible: (value: boolean) => void;
+	country: string;
+	translit: string;
 }
 
-const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible }) => {
-	const [visible, setVisible] = useState<boolean>(false);
+const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible, translit, country }) => {
 	const copyToClipboard = () => {
 		if (translate) {
 			Clipboard.setString(translate);
@@ -26,31 +27,18 @@ const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible }) => {
 		}
 	};
 
-	const dismiss = () => {
-		Keyboard.dismiss();
-	};
-
 	useEffect(() => {
-		const keyboardDidShowListener = Keyboard.addListener(
-			'keyboardDidShow',
-			() => {
-				setVisible(false);
-			}
-		);
 		const keyboardDidHideListener = Keyboard.addListener(
 			'keyboardDidHide',
-			() => {
-				setVisible(true);
+			async () => {
+				await addCard({ translit, country, translationResult: translate, type: 'regular' })
 			}
 		);
 
 		return () => {
 			keyboardDidHideListener.remove();
-			keyboardDidShowListener.remove();
 		};
-	}, []);
-
-
+	}, [translate, translit, country]);
 
 	return (
 		<View style={textContainerStyle.container}>
@@ -59,13 +47,6 @@ const TextContainer: FC<ITextContainer> = ({ translate, toggleVisible }) => {
 					<View style={textContainerStyle.textContainer}>
 						<View style={textContainerStyle.text}>
 							<Text>{translate}</Text>
-						</View>
-						<View style={textContainerStyle.image}>
-							{(!!translate && !visible) && (
-								<TouchableWithoutFeedback onPress={dismiss}>
-									<Arrow />
-								</TouchableWithoutFeedback>
-							)}
 						</View>
 					</View>
 				</TouchableOpacity>
