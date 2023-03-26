@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "georgian_translator",
-    "slug": "georgian_translator",
+    "slug": "georgian-sms-translator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dmitrii.grosh.georgiansmstranslator"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f6c04daf-6fb3-4c04-b5c5-8ef862ec78e5"
+      }
+    },
+    "owner": "dmitrii.grosh"
   }
 }
