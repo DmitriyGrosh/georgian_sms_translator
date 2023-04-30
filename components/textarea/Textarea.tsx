@@ -51,8 +51,7 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translit, setTranslateResul
 			setTranslateResult(convertTranslit)
 		} else if (country === 'rus' || country === 'eng') {
 			try {
-				console.log('==========>123123123', country);
-				const response = await fetch('http://localhost:3000/api/v1/translate', {
+				const response = await fetch('https://groshidze.tech/api/v1/translate', {
 					method: 'POST',
 					headers: {
 						Accept: 'application/json',
