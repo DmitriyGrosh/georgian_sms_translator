@@ -2,7 +2,7 @@
   "expo": {
     "name": "Georgian Translator",
     "slug": "georgian-sms-translator",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
