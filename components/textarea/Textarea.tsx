@@ -51,7 +51,8 @@ const Textarea: FC<ITextarea> = ({ setTranslateText, translit, setTranslateResul
 			setTranslateResult(convertTranslit)
 		} else if (country === 'rus' || country === 'eng') {
 			try {
-				const response = await fetch('http://localhost:8000/api/v1/translate', {
+				console.log('==========>123123123', country);
+				const response = await fetch('http://localhost:3000/api/v1/translate', {
 					method: 'POST',
 					headers: {
 						Accept: 'application/json',
