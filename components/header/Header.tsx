@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 
 import { ILanguage } from '../../shared/types';
@@ -34,9 +34,6 @@ const Header: FC<IHeader> = ({ country, handleSelect }) => {
 				{country === 'geo' && <Georgia />}
 				{country === 'rus' && <Russia />}
 				{country === 'eng' && <England />}
-			</View>
-			<View style={headerStyles.languageContainerView}>
-				<Image style={headerStyles.image} source={require('../../assets/exchange.png')} />
 			</View>
 			<View style={headerStyles.languageContainerView}>
 				<SelectDropdown
